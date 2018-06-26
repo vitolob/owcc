@@ -5,19 +5,20 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>OWCC</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+        <link rel="stylesheet" href="css/master.css">
     </head>
     <body>
 
         <div class="container">
 
             <form id="currencyForm">
-                <div class="form-row" style="margin-bottom: 16px;">
+                <div class="form-row">
                     <div class="col">
                         <label for="sourceCurrency">From</label>
-                        <input type="text" class="form-control" id="sourceCurrency" placeholder="Enter currency">
+                        <input type="text" class="form-control" id="inputAmount" name="amount" placeholder="Enter currency">
                     </div>
                     <div class="col">
-                        <select class="form-control" id="sourceCurrencySelect" style="margin-top:32px">
+                        <select class="form-control" id="sourceCurrency" name="sourceCurrency">
                             <option value="1">USD - US Dollar</option>
                             <option value="2">EUR - Euro</option>
                             <option value="3">MZN - Mozambican Metical</option>
@@ -25,13 +26,13 @@
                     </div>
                 </div>
 
-                <div class="form-row" style="margin-bottom: 16px;">
+                <div class="form-row">
                     <div class="col">
                          <label for="outputCurrency">To</label>
-                         <input type="text" class="form-control" id="outputCurrency" readonly>
+                         <input type="text" class="form-control" id="outputCurrency" name="result" readonly>
                     </div>
                     <div class="col">
-                        <select class="form-control" id="sourceCurrencySelect" style="margin-top:32px">
+                        <select class="form-control" id="desiredCurrency" name="desiredCurrency">
                             <option value="1">USD - US Dollar</option>
                             <option value="2">EUR - Euro</option>
                             <option value="3">MZN - Mozambican Metical</option>

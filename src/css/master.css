@@ -1,0 +1,11 @@
+form#currencyForm {
+    margin-top: 16px;
+}
+
+#currencyForm div.form-row {
+    margin-bottom: 16px;
+}
+
+#currencyForm select {
+    margin-top: 32px;
+}
