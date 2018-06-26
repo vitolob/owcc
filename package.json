@@ -1,0 +1,31 @@
+{
+  "name": "owcc",
+  "version": "1.0.0",
+  "description": "An Offline-first Web Currency Converter App",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vitolob/owcc.git"
+  },
+  "keywords": [
+    "service-worker",
+    "offline",
+    "indexeddb",
+    "fetch",
+    "cache",
+    "web"
+  ],
+  "author": "Victorino Machava",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vitolob/owcc/issues"
+  },
+  "homepage": "https://github.com/vitolob/owcc#readme",
+  "devDependencies": {
+    "browser-sync": "^2.24.5"
+  }
+}
