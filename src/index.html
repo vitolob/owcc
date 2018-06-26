@@ -1,10 +1,50 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>OWCC</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     </head>
     <body>
-        <h1>Currency Converter App!</h1>
+
+        <div class="container">
+
+            <form id="currencyForm">
+                <div class="form-row" style="margin-bottom: 16px;">
+                    <div class="col">
+                        <label for="sourceCurrency">From</label>
+                        <input type="text" class="form-control" id="sourceCurrency" placeholder="Enter currency">
+                    </div>
+                    <div class="col">
+                        <select class="form-control" id="sourceCurrencySelect" style="margin-top:32px">
+                            <option value="1">USD - US Dollar</option>
+                            <option value="2">EUR - Euro</option>
+                            <option value="3">MZN - Mozambican Metical</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row" style="margin-bottom: 16px;">
+                    <div class="col">
+                         <label for="outputCurrency">To</label>
+                         <input type="text" class="form-control" id="outputCurrency" readonly>
+                    </div>
+                    <div class="col">
+                        <select class="form-control" id="sourceCurrencySelect" style="margin-top:32px">
+                            <option value="1">USD - US Dollar</option>
+                            <option value="2">EUR - Euro</option>
+                            <option value="3">MZN - Mozambican Metical</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Convert</button>
+            </form>
+
+        </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
     </body>
 </html>

@@ -2,5 +2,5 @@ const browserSync = require('browser-sync');
 
 browserSync({
   server: 'src',
-  files: ['src/*.html']
+  files: ['src/*.html', 'src/*.css']
 });
