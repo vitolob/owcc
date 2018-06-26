@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js"
+    "build:js": "browserify src/js/main/index.js > build/main.js",
+    "start": "npm run build:js && node app.js"
   },
   "repository": {
     "type": "git",
@@ -26,6 +27,7 @@
   },
   "homepage": "https://github.com/vitolob/owcc#readme",
   "devDependencies": {
-    "browser-sync": "^2.24.5"
+    "browser-sync": "^2.24.5",
+    "browserify": "^16.2.2"
   }
 }

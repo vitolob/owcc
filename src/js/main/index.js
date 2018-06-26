@@ -1,11 +1,12 @@
 const form = document.querySelector('#currencyForm');
 const amountField = document.querySelector('#inputAmount');
 const resultField = document.querySelector('#outputCurrency')
-const apiURL = 'https://free.currencyconverterapi.com/api/v5/convert?q=USD_MZN,MZN_USD&compact=ultra';
+const apiURLs = require('./api.js');
 
 form.addEventListener('submit', event => {
   event.preventDefault();
 
+  const fetchUrl = apiURLs.baseURL + apiURLs.exchangeRate + 'USD_MZN,MZM_USD' + apiURLs.extra;
   const AMOUNT = Number(amountField.value);
 
   function handleData(data) {
@@ -14,7 +15,7 @@ form.addEventListener('submit', event => {
     resultField.value = XR * AMOUNT;
   }
 
-  fetch(apiURL)
+  fetch(fetchUrl)
     .then(response => {
       return response.json();
   }).then(handleData);
