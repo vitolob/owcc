@@ -7,10 +7,9 @@ const resultField = document.querySelector('#outputCurrency')
 const selectFields = document.querySelectorAll('#currencyForm select');
 
 class App {
-
-  init() {
-    this.fetchConversionFactor();
+  constructor() {
     this.fetchCurrency();
+    this.fetchConversionFactor();
   }
 
   fetchConversionFactor() {
@@ -18,13 +17,18 @@ class App {
     form.addEventListener('submit', event => {
       event.preventDefault();
 
-      const fetchUrl = apiURLs.baseURL + apiURLs.exchangeRate + 'USD_MZN,MZM_USD' + apiURLs.extra;
+      // document.querySelectorAll returns NodeList in document order
+      const sourceCurrency = selectFields[0].selectedOptions[0].value;
+      const targetCurrency = selectFields[1].selectedOptions[0].value;
+      const query = `${sourceCurrency}_${targetCurrency}`;
+
+      const fetchUrl = apiURLs.baseURL + apiURLs.exchangeRate + query + apiURLs.extra;
       const AMOUNT = Number(amountField.value);
 
       const handleData = function (data) {
-        const XR = Number(data.USD_MZN) // Exchange Rate
+        const XR = Number(data[query]); // Exchange Rate
 
-        resultField.value = XR * AMOUNT;
+        resultField.value = +(XR * AMOUNT).toFixed(3);
       }
 
       fetch(fetchUrl)
@@ -61,4 +65,3 @@ class App {
 }
 
 AppInstance = new App();
-AppInstance.init();
