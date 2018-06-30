@@ -1,4 +1,5 @@
 const apiURLs = require('./api.js');
+const sw = require('./indexSW.js');
 
 // HTML elements
 const form = document.querySelector('#currencyForm');
@@ -8,11 +9,11 @@ const selectFields = document.querySelectorAll('#currencyForm select');
 
 class App {
   constructor() {
-    this.fetchCurrency();
-    this.fetchConversionFactor();
+    this._fetchCurrency();
+    this._fetchConversionFactor();
   }
 
-  fetchConversionFactor() {
+  _fetchConversionFactor() {
 
     form.addEventListener('submit', event => {
       event.preventDefault();
@@ -40,7 +41,7 @@ class App {
       });
   }
 
-  fetchCurrency() {
+  _fetchCurrency() {
     const currencyUrl = apiURLs.baseURL + apiURLs.currencyList;
 
     const handleData = function(data) {
@@ -65,3 +66,4 @@ class App {
 }
 
 AppInstance = new App();
+SWInstance = new sw();
