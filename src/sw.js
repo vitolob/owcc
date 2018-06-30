@@ -1,3 +1,5 @@
+const version = 'owcc-v1';
+
 self.addEventListener('install', event => {
   const urlsToCache = [
     '/',
@@ -8,7 +10,7 @@ self.addEventListener('install', event => {
   ];
 
   event.waitUntil(
-    caches.open('owcc-v1').then(cache => {
+    caches.open(version).then(cache => {
       return cache.addAll(urlsToCache);
     })
   );
