@@ -1,5 +1,5 @@
 const apiURLs = require('./api.js');
-const sw = require('./indexSW.js');
+const registerSW = require('./registerServiceWorker.js');
 const idb = require('./idb.js');
 
 // HTML elements
@@ -12,7 +12,7 @@ class App {
   constructor(sw) {
     this._fetchCurrency();
     this._fetchConversionFactor();
-    // this.sw = new sw();
+    // registerSW();
     this._db = idb();
   }
 
@@ -82,4 +82,4 @@ class App {
 
 }
 
-AppInstance = new App(sw);
+AppInstance = new App();
