@@ -6,14 +6,14 @@ const idb = require('./idb.js');
 const form = document.querySelector('#currencyForm');
 const amountField = document.querySelector('#inputAmount');
 const resultField = document.querySelector('#outputCurrency')
-const selectFields = document.querySelectorAll('#currencyForm select');
+const selectFields = document.querySelectorAll('#currencyForm select'); // Currency Dropdown Fields
 
 class App {
   constructor(sw) {
+    registerSW();
+    this._db = idb();
     this._fetchCurrency();
     this._fetchConversionFactor();
-    // registerSW();
-    this._db = idb();
   }
 
   _fetchConversionFactor() {
@@ -37,10 +37,17 @@ class App {
         App._addCurrencyToDB(query, XR);
       }
 
-      fetch(fetchUrl)
-        .then(response => {
-          return response.json();
-      }).then(handleData);
+      App._getCurrencyFromDB(query).then(val => {
+        if (val == undefined) {
+          fetch(fetchUrl)
+            .then(response => response.json())
+            .then(handleData);
+        }
+        else {
+          console.log(val);
+          resultField.value = +(val * AMOUNT).toFixed(3);
+        }
+      });
 
       // amount.value = ''; // Clear the input field
       });
@@ -77,7 +84,16 @@ class App {
       const currencyStore = tx.objectStore('currency');
       currencyStore.put(val, key);
     });
+  }
 
+  _getCurrencyFromDB(key) {
+    const dbPromise = this._db;
+
+    return dbPromise.then(db => {
+      const tx = db.transaction('currency');
+      const currencyStore = tx.objectStore('currency');
+      return currencyStore.get(key);
+    });
   }
 
 }

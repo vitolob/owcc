@@ -330,22 +330,37 @@ const apiURLs = {
 module.exports = apiURLs;
 
 },{}],3:[function(require,module,exports){
-const apiURLs = require('./api.js');
-const sw = require('./indexSW.js');
 const idb = require('idb');
+
+function openDB() {
+  if (!navigator.serviceWorker) {
+    return Promise.resolve();
+  }
+
+  return idb.open('currency-db', 1, upgradedB => {
+    const currencyStore = upgradedB.createObjectStore('currency');
+  });
+}
+
+module.exports = openDB;
+
+},{"idb":1}],4:[function(require,module,exports){
+const apiURLs = require('./api.js');
+const registerSW = require('./registerServiceWorker.js');
+const idb = require('./idb.js');
 
 // HTML elements
 const form = document.querySelector('#currencyForm');
 const amountField = document.querySelector('#inputAmount');
 const resultField = document.querySelector('#outputCurrency')
-const selectFields = document.querySelectorAll('#currencyForm select');
+const selectFields = document.querySelectorAll('#currencyForm select'); // Currency Dropdown Fields
 
 class App {
   constructor(sw) {
+    registerSW();
+    this._db = idb();
     this._fetchCurrency();
     this._fetchConversionFactor();
-    // this.sw = new sw();
-    this._db = openDB();
   }
 
   _fetchConversionFactor() {
@@ -369,10 +384,17 @@ class App {
         App._addCurrencyToDB(query, XR);
       }
 
-      fetch(fetchUrl)
-        .then(response => {
-          return response.json();
-      }).then(handleData);
+      App._getCurrencyFromDB(query).then(val => {
+        if (val == undefined) {
+          fetch(fetchUrl)
+            .then(response => response.json())
+            .then(handleData);
+        }
+        else {
+          console.log(val);
+          resultField.value = +(val * AMOUNT).toFixed(3);
+        }
+      });
 
       // amount.value = ''; // Clear the input field
       });
@@ -409,43 +431,34 @@ class App {
       const currencyStore = tx.objectStore('currency');
       currencyStore.put(val, key);
     });
-
   }
 
+  _getCurrencyFromDB(key) {
+    const dbPromise = this._db;
+
+    return dbPromise.then(db => {
+      const tx = db.transaction('currency');
+      const currencyStore = tx.objectStore('currency');
+      return currencyStore.get(key);
+    });
+  }
 
 }
 
-AppInstance = new App(sw);
+AppInstance = new App();
 
+},{"./api.js":2,"./idb.js":3,"./registerServiceWorker.js":5}],5:[function(require,module,exports){
+function registerSW() {
+  if (!navigator.serviceWorker) return;
 
-function openDB() {
-  if (!navigator.serviceWorker) {
-    return Promise.resolve();
-  }
-
-  return idb.open('currency-db', 1, upgradedB => {
-    const currencyStore = upgradedB.createObjectStore('currency');
+  navigator.serviceWorker.register('/sw.js')
+    .then(() => {
+      console.log('Yeah! It worked!');
+  }).catch(() => {
+    console.log('Registration failed :-(');
   });
 }
 
-},{"./api.js":2,"./indexSW.js":4,"idb":1}],4:[function(require,module,exports){
-class SW {
-  constructor() {
-    this._register();
-  }
+module.exports = registerSW;
 
-  _register() {
-    if (!navigator.serviceWorker) return;
-
-    navigator.serviceWorker.register('/sw.js')
-      .then(() => {
-        console.log('Yeah! It worked!');
-    }).catch(() => {
-      console.log('Registration failed :-(');
-    });
-  }
-}
-
-module.exports = SW;
-
-},{}]},{},[3]);
+},{}]},{},[4]);
