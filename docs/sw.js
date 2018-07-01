@@ -5,6 +5,7 @@ self.addEventListener('install', event => {
     './',
     './css/master.css',
     './js/main.js',
+    'https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css',
     'https://free.currencyconverterapi.com/api/v5/currencies'
   ];
 
@@ -17,10 +18,10 @@ self.addEventListener('install', event => {
 
 // self.addEventListener('activate', event => {});
 
-// self.addEventListener('fetch', event => {
-//   event.respondWith(
-//     caches.match(event.request).then(response => {
-//       return response || fetch(event.request);
-//     })
-//   );
-// });
+self.addEventListener('fetch', event => {
+  event.respondWith(
+    caches.match(event.request).then(response => {
+      return response || fetch(event.request);
+    })
+  );
+});
