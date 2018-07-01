@@ -1,7 +1,7 @@
 function registerSW() {
   if (!navigator.serviceWorker) return;
 
-  navigator.serviceWorker.register('/sw.js')
+  navigator.serviceWorker.register('./sw.js')
     .then(() => {
       console.log('Yeah! It worked!');
   }).catch(() => {
