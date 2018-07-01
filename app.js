@@ -1,6 +1,6 @@
 const browserSync = require('browser-sync');
 
 browserSync({
-  server: ['src', 'build'],
-  files: ['build/*.html', 'build/css/*.css']
+  server: ['docs'],
+  files: ['docs/*.html', 'docs/css/*.css']
 });

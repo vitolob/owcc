@@ -1,5 +1,6 @@
 const apiURLs = require('./api.js');
 const sw = require('./indexSW.js');
+const idb = require('idb');
 
 // HTML elements
 const form = document.querySelector('#currencyForm');
@@ -8,12 +9,15 @@ const resultField = document.querySelector('#outputCurrency')
 const selectFields = document.querySelectorAll('#currencyForm select');
 
 class App {
-  constructor() {
+  constructor(sw) {
     this._fetchCurrency();
     this._fetchConversionFactor();
+    // this.sw = new sw();
+    this._db = openDB();
   }
 
   _fetchConversionFactor() {
+    const App = this;
 
     form.addEventListener('submit', event => {
       event.preventDefault();
@@ -30,6 +34,7 @@ class App {
         const XR = Number(data[query]); // Exchange Rate
 
         resultField.value = +(XR * AMOUNT).toFixed(3);
+        App._addCurrencyToDB(query, XR);
       }
 
       fetch(fetchUrl)
@@ -63,7 +68,30 @@ class App {
       return response.json();
     }).then(handleData);
   }
+
+  _addCurrencyToDB(key, val) {
+    const dbPromise = this._db;
+
+    dbPromise.then(db => {
+      const tx = db.transaction('currency', 'readwrite');
+      const currencyStore = tx.objectStore('currency');
+      currencyStore.put(val, key);
+    });
+
+  }
+
+
 }
 
-AppInstance = new App();
-SWInstance = new sw();
+AppInstance = new App(sw);
+
+
+function openDB() {
+  if (!navigator.serviceWorker) {
+    return Promise.resolve();
+  }
+
+  return idb.open('currency-db', 1, upgradedB => {
+    const currencyStore = upgradedB.createObjectStore('currency');
+  });
+}
