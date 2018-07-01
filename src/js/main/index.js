@@ -1,6 +1,6 @@
 const apiURLs = require('./api.js');
 const sw = require('./indexSW.js');
-const idb = require('idb');
+const idb = require('./idb.js');
 
 // HTML elements
 const form = document.querySelector('#currencyForm');
@@ -13,7 +13,7 @@ class App {
     this._fetchCurrency();
     this._fetchConversionFactor();
     // this.sw = new sw();
-    this._db = openDB();
+    this._db = idb();
   }
 
   _fetchConversionFactor() {
@@ -80,18 +80,6 @@ class App {
 
   }
 
-
 }
 
 AppInstance = new App(sw);
-
-
-function openDB() {
-  if (!navigator.serviceWorker) {
-    return Promise.resolve();
-  }
-
-  return idb.open('currency-db', 1, upgradedB => {
-    const currencyStore = upgradedB.createObjectStore('currency');
-  });
-}
